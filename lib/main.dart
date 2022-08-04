@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import './Provider/mode_provider.dart';
-import './Provider/score_provider.dart';
+import './provider/mode_provider.dart';
+import './provider/score_provider.dart';
 import 'play.dart';
 
 void main() {

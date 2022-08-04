@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import './Provider/counter_provider.dart';
-import './Provider/mode_provider.dart';
-import './Provider/time_provider.dart';
+import './provider/counter_provider.dart';
+import './provider/mode_provider.dart';
+import './provider/time_provider.dart';
 
 class PlayPage extends HookConsumerWidget {
   const PlayPage({
