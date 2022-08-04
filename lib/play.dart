@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import './Provider/counter_provider.dart';
 import './Provider/mode_provider.dart';
+import './Provider/time_provider.dart';
 
 class PlayPage extends HookConsumerWidget {
   const PlayPage({
@@ -14,6 +15,9 @@ class PlayPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final count = ref.watch(counterProvider.state).state;
     final activeMode = ref.watch(modeProvider);
+    final timer = ref.watch(timerProvider);
+    final assistText = ref.watch(timerAssistTextProvider);
+
     return Scaffold(
       body: Column(
         children: [
@@ -26,6 +30,7 @@ class PlayPage extends HookConsumerWidget {
                     children: [
                       ElevatedButton(
                           onPressed: () {
+                            ref.watch(timerProvider.notifier).reset();
                             ref.read(counterProvider.state).state =
                                 convertModeToNum(activeMode);
                             Navigator.pop(context);
@@ -34,7 +39,14 @@ class PlayPage extends HookConsumerWidget {
                     ],
                   ),
                 ),
-                Text(count.toString())
+                Text(timer.time),
+                Text(count.toString(),
+                    style: const TextStyle(
+                      fontSize: 45,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Helvetica Neue',
+                    )),
+                Text(assistText)
               ],
             ),
           ),
@@ -55,13 +67,21 @@ class Tile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     double width = MediaQuery.of(context).size.width;
+    final count = ref.watch(counterProvider);
     return SizedBox(
       width: width / 3,
       // height: 150,
       child: AspectRatio(
         aspectRatio: 4 / 5,
         child: TextButton(
-          onPressed: () => ref.read(counterProvider.state).state--,
+          onPressed: () {
+            if (count != 0) {
+              ref.watch(timerProvider.notifier).start();
+              ref.read(counterProvider.state).state--;
+            } else {
+              ref.watch(timerProvider.notifier).stop();
+            }
+          },
           child: Container(
             color: Colors.blue,
           ),
