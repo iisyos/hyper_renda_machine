@@ -17,8 +17,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Home(),
+    return MaterialApp(
+      home: const Home(),
+      theme: ThemeData(
+        fontFamily: 'Staatliches',
+      ),
     );
   }
 }
@@ -31,27 +34,48 @@ class Home extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scoreSets = ref.watch(scoreSetsProvider);
+    double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-        child: Column(
-          children: [
-            Row(children: [
-              for (final scoreSet in scoreSets) ScoreSetBox(scoreSet: scoreSet)
-            ]),
-            const Title(),
-            const Modebar(),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          // （2） 実際に表示するページ(ウィジェット)を指定する
-                          builder: (context) => PlayPage()));
-                },
-                child: Text('start'))
-          ],
+      body: Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage('assets/bg.gif'),
+          fit: BoxFit.cover,
+        )),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+          child: Column(
+            children: [
+              Row(children: [
+                for (final scoreSet in scoreSets)
+                  ScoreSetBox(scoreSet: scoreSet)
+              ]),
+              const Title(),
+              const Modebar(),
+              OutlinedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PlayPage()));
+                  },
+                  style: OutlinedButton.styleFrom(
+                    primary: Colors.white,
+                    side: const BorderSide(width: 0.5, color: Colors.white),
+                  ),
+                  child: SizedBox(
+                      child: const AspectRatio(
+                        child: Center(
+                            child: Text(
+                          'start',
+                          style: TextStyle(fontSize: 25),
+                        )),
+                        aspectRatio: 16 / 9,
+                      ),
+                      width: width / 4))
+            ],
+          ),
         ),
       ),
     );
@@ -67,60 +91,64 @@ class Modebar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeMode = ref.watch(modeProvider);
     Color? textColorFor(Mode mode) {
-      return activeMode == mode ? Colors.blue : Colors.black;
+      return activeMode == mode ? Colors.red : Colors.grey;
     }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        TextButton(
-          onPressed: () {
-            ref.read(modeProvider.notifier).state = Mode.ten;
-          },
-          child: const Text('10',
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Helvetica Neue',
-              )),
-          style: ButtonStyle(
-            visualDensity: VisualDensity.compact,
-            foregroundColor: MaterialStateProperty.all(textColorFor(Mode.ten)),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 25),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          TextButton(
+            onPressed: () {
+              ref.read(modeProvider.notifier).state = Mode.ten;
+            },
+            child: const Text('10',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Helvetica Neue',
+                )),
+            style: ButtonStyle(
+              visualDensity: VisualDensity.compact,
+              foregroundColor:
+                  MaterialStateProperty.all(textColorFor(Mode.ten)),
+            ),
           ),
-        ),
-        TextButton(
-          onPressed: () {
-            ref.read(modeProvider.notifier).state = Mode.hundred;
-          },
-          child: const Text('100',
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Helvetica Neue',
-              )),
-          style: ButtonStyle(
-            visualDensity: VisualDensity.compact,
-            foregroundColor:
-                MaterialStateProperty.all(textColorFor(Mode.hundred)),
+          TextButton(
+            onPressed: () {
+              ref.read(modeProvider.notifier).state = Mode.hundred;
+            },
+            child: const Text('100',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Helvetica Neue',
+                )),
+            style: ButtonStyle(
+              visualDensity: VisualDensity.compact,
+              foregroundColor:
+                  MaterialStateProperty.all(textColorFor(Mode.hundred)),
+            ),
           ),
-        ),
-        TextButton(
-          onPressed: () {
-            ref.read(modeProvider.notifier).state = Mode.thousand;
-          },
-          child: const Text('1000',
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Helvetica Neue',
-              )),
-          style: ButtonStyle(
-            visualDensity: VisualDensity.compact,
-            foregroundColor:
-                MaterialStateProperty.all(textColorFor(Mode.thousand)),
-          ),
-        )
-      ],
+          TextButton(
+            onPressed: () {
+              ref.read(modeProvider.notifier).state = Mode.thousand;
+            },
+            child: const Text('1000',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Helvetica Neue',
+                )),
+            style: ButtonStyle(
+              visualDensity: VisualDensity.compact,
+              foregroundColor:
+                  MaterialStateProperty.all(textColorFor(Mode.thousand)),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
@@ -138,16 +166,38 @@ class ScoreSetBox extends StatelessWidget {
     return Expanded(
       child: AspectRatio(
         aspectRatio: 3 / 2,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Center(
-              child: Text(scoreSet.mode.toString().split('.').last),
-            ),
-            Center(
-              child: Text('${scoreSet.score}'),
-            )
-          ],
+        child: Container(
+          margin: const EdgeInsets.all(2.0),
+          decoration: BoxDecoration(
+            color: const Color(0xff343454),
+            border: Border.all(width: 0.5, color: Colors.white),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Center(
+                child: Text(
+                  scoreSet.mode.toString().split('.').last,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontFamily: 'Staatliches',
+                  ),
+                ),
+              ),
+              Center(
+                child: Text(
+                  '${scoreSet.score}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontFamily: 'Staatliches',
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -161,14 +211,16 @@ class Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      'Hyper Renda Machine',
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        color: Colors.black,
-        fontSize: 50,
-        fontWeight: FontWeight.bold,
-        fontFamily: 'Helvetica Neue',
+    return const Padding(
+      padding: EdgeInsets.only(top: 25),
+      child: Text(
+        'Hyper Renda Machine',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 60,
+          fontFamily: 'Staatliches',
+        ),
       ),
     );
   }
