@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import './Provider/mode_provider.dart';
 import './Provider/score_provider.dart';
+import 'play.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -41,7 +42,15 @@ class Home extends HookConsumerWidget {
             ]),
             const Title(),
             const Modebar(),
-            ElevatedButton(onPressed: () {}, child: Text('start'))
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          // （2） 実際に表示するページ(ウィジェット)を指定する
+                          builder: (context) => PlayPage()));
+                },
+                child: Text('start'))
           ],
         ),
       ),
