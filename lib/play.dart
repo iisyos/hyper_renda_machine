@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import './provider/counter_provider.dart';
 import './provider/mode_provider.dart';
+import './provider/score_provider.dart';
 import './provider/time_provider.dart';
 
 class PlayPage extends HookConsumerWidget {
@@ -58,17 +59,18 @@ class PlayPage extends HookConsumerWidget {
                                 ),
                                 width: width / 7)),
                         Padding(
-                          padding: const EdgeInsets.only(left: 40),
+                          padding: const EdgeInsets.only(left: 48),
                           child: Text(
                             timer.time,
-                            style: TextStyle(color: Colors.white, fontSize: 30),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 30),
                           ),
                         )
                       ],
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    padding: const EdgeInsets.only(bottom: 10),
                     child: Text(count.toString(),
                         style: const TextStyle(
                             fontSize: 70,
@@ -78,7 +80,7 @@ class PlayPage extends HookConsumerWidget {
                   ),
                   Text(
                     assistText,
-                    style: TextStyle(color: Colors.white, fontSize: 15),
+                    style: TextStyle(color: Colors.white, fontSize: 20),
                   )
                 ],
               ),
@@ -100,11 +102,13 @@ class Tile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final timer = ref.watch(timerProvider);
+    final activeMode = ref.watch(modeProvider);
+
     double width = MediaQuery.of(context).size.width;
     final count = ref.watch(counterProvider);
     return SizedBox(
       width: width / 3,
-      // height: 150,
       child: AspectRatio(
         aspectRatio: 4 / 5,
         child: TextButton(
@@ -114,6 +118,9 @@ class Tile extends ConsumerWidget {
               ref.read(counterProvider.state).state--;
             } else {
               ref.watch(timerProvider.notifier).stop();
+              ref
+                  .read(scoreSetsProvider.notifier)
+                  .updateScore(timer.time, activeMode);
             }
           },
           child: Container(

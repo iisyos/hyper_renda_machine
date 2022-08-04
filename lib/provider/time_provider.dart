@@ -23,8 +23,7 @@ class TimerNotifier extends StateNotifier<TimerModel> {
   StreamSubscription<int>? _tickerSubscription;
 
   static String _durationString(int duration) {
-    final seconds =
-        ((duration / 60) % 10000).floor().toString().padLeft(4, '0');
+    final seconds = ((duration / 60) % 1000).floor().toString().padLeft(3, '0');
     final milliseconds = (duration % 60).floor().toString().padLeft(2, '0');
     return '$seconds:$milliseconds';
   }

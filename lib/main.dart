@@ -191,7 +191,7 @@ class ScoreSetBox extends StatelessWidget {
                   '${scoreSet.score}',
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 30,
+                    fontSize: 25,
                     fontFamily: 'Staatliches',
                   ),
                 ),

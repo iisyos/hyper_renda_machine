@@ -6,8 +6,8 @@ import './mode_provider.dart';
 @immutable
 class ScoreSet {
   final Mode mode;
-  final int score;
-  const ScoreSet({required this.mode, this.score = 0});
+  final String score;
+  const ScoreSet({required this.mode, this.score = '000:00'});
 }
 
 const _initialScoreSets = [
@@ -19,7 +19,7 @@ const _initialScoreSets = [
 class ScoreSets extends StateNotifier<List<ScoreSet>> {
   ScoreSets() : super(_initialScoreSets);
 
-  void updateScore(int score, Mode mode) {
+  void updateScore(String score, Mode mode) {
     state = [
       for (final scoreSet in state)
         if (scoreSet.mode == mode)
