@@ -1,16 +1,8 @@
-# hyper_renda_machine
+## What is This App
 
-A new Flutter project.
+This is easy RENDA game!!
+The contestants compete in three modes to see how fast they can hit the button！
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## ScreenShot
+### version 1.0
+<img width="363" alt="スクリーンショット 2022-08-07 23 09 11" src="https://user-images.githubusercontent.com/67086449/183294818-3d56cfc5-5696-47f1-8dbc-ed29e1d46f59.png">
