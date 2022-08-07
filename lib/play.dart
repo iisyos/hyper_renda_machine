@@ -116,7 +116,8 @@ class Tile extends ConsumerWidget {
             if (count != 0) {
               ref.watch(timerProvider.notifier).start();
               ref.read(counterProvider.state).state--;
-            } else {
+            }
+            if (count == 1) {
               ref.watch(timerProvider.notifier).stop();
               ref
                   .read(scoreSetsProvider.notifier)
